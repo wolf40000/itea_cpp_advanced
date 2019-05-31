@@ -35,7 +35,7 @@ void MainWindow::onClick()
         QPushButton* button{new QPushButton("Click Me Again!")};
         vlayo->addWidget(button);
 
-        connect(button, &QPushButton::clicked, [window]()
+        connect(button, &QPushButton::clicked, [window]() // Using connect method in Qt5 style
                 {
                     window->m_label->setText("\"Click Me Again!\" button clicked!");
                 });

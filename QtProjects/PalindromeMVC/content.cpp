@@ -3,11 +3,14 @@
 Content::Content(QWidget* parent)
     : QWidget(parent)
     , m_textEdit{new QTextEdit}
-    , m_palindromeList{new QListWidget}
+    , m_palindromeView{new QTableView}
+    , m_palindromeModel{new PalindromeModel}
     , m_logEdit{new QTextEdit}
 {
+    m_palindromeView->setModel(m_palindromeModel);
+
     QGroupBox* textBox{generateGroupBox("Text:", m_textEdit)};
-    QGroupBox* palindromeBox{generateGroupBox("Palindrome List:", m_palindromeList)};
+    QGroupBox* palindromeBox{generateGroupBox("Palindrome List:", m_palindromeView)};
     QGroupBox* logBox{generateGroupBox("Log:", m_logEdit)};
 
     QSplitter* hSplitter{new QSplitter(Qt::Horizontal)};
@@ -47,11 +50,11 @@ void Content::processFile(const QString &fileName)
 
 void Content::processText()
 {
-    m_palindromeList->clear();
+    m_palindromeModel->clear();
 
     const QString content{m_textEdit->toPlainText()};
 
-    const QVector<QStringRef> words{content.splitRef(QRegularExpression("\\s+"))};
+    const QVector<QStringRef> words{content.splitRef(QRegularExpression("\\s+"), QString::SplitBehavior::SkipEmptyParts)};
 
     for(const QStringRef& word: words)
     {
@@ -60,7 +63,7 @@ void Content::processText()
 
         if(word.compare(rword, Qt::CaseInsensitive) == 0)
         {
-            m_palindromeList->addItem(word.toString());
+            m_palindromeModel->append(word.toString());
         }
     }
 }

@@ -26,4 +26,3 @@ private:
 
     QStatusBar* m_statusBar;
 };
-

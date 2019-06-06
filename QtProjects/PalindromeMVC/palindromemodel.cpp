@@ -100,7 +100,7 @@ void PalindromeModel::append(const QString &word)
         {
             if(key == word)
             {
-                dataChanged(this->index(index, 1), this->index(index, 1));
+                emit dataChanged(this->index(index, 1), this->index(index, 1));
             }
             ++index;
         }
